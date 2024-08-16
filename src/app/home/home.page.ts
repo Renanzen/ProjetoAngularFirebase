@@ -11,14 +11,44 @@ import { MessageService } from '../services/message.service';
 })
 export class HomePage {
   recado = {
-    assunto : null
+    assunto : null,
+    mensagem : null
   }
-  constructor(private crudservice: CrudService){ 
+
+  recados: any = [];
+  constructor(public crudservice: CrudService){ 
     
 }
   enviar(){
-    this.crudservice.insert(this.recado, (recado))
+    this.crudservice.insert(this.recado, 'recados');
   }
+
+  carregar(){
+    this.recados = [];
+    this.crudservice.fetchAll('recados')
+    .then( (response) => {
+      this.recados = (response)
+      console.log(this.recados);
+      
+    })  //tiver sucesso
+    .catch((erro) => {
+      console.log(erro)
+    }) //ocorrer um erro
+    .finally(() => {
+      console.log('Processo Finalizado')
+    }) //quanto finalizar a requisição
+  }
+
+  remover(id: string){
+    this.crudservice.remove(id, 'recados')
+    this.carregar();
+  }
+
+
+
+
+
+  
   pessoa = {
     nome: 'Pombinha da paz Silva',
     foto: 'https://professionalmoron.com/wp-content/uploads/2012/05/alpaca-985158_640.jpg',
