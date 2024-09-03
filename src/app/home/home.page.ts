@@ -11,69 +11,87 @@ import { MessageService } from '../services/message.service';
 })
 export class HomePage {
 
-  usuario: any ={
-    email: null,
-    senha: null
-  }
 
-  id: any;
-  
-  recado = {
-    id: null,
-    assunto : null,
-    mensagem : null
+  constructor(){
+    this.getPaises();
   }
-
-  recados: any = [];
-  constructor(
-    public crudservice: CrudService,
-    public authservice: AuthenticateService
-  ){ 
-    
-}
-  enviar(){
-    this.crudservice.insert(this.recado, 'recados');
-  }
-
-  carregar(){
-    this.recados = [];
-    this.crudservice.fetchAll('recados')
-    .then( (response) => {
-      this.recados = (response)
-      console.log(this.recados);
-      
-    })  //tiver sucesso
-    .catch((erro) => {
+  getPaises() {
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=151&offset=0')
+    .then(dados => dados.json())
+    .then(dados => {
+      console.log(dados)
+    })
+    .catch(erro => {
       console.log(erro)
-    }) //ocorrer um erro
-    .finally(() => {
+    })
+    .finally(() =>{
       console.log('Processo Finalizado')
-    }) //quanto finalizar a requisição
+    })
   }
 
-  remover(id: string){
-    this.crudservice.remove(id, 'recados')
-    this.carregar();
-  }
+//   usuario: any ={
+//     email: null,
+//     senha: null
+//   }
 
-  selecionar(recado: any) {
-    this.id = recado.id;
-    this.recado = recado.recado;
-    // this.recado = mensagem;
+//   id: any;
+  
+//   recado = {
+//     id: null,
+//     assunto : null,
+//     mensagem : null
+//   }
 
-  }
+//   recados: any = [];
+//   constructor(
+//     public crudservice: CrudService,
+//     public authservice: AuthenticateService
+//   ){ 
+    
+// }
+//   enviar(){
+//     this.crudservice.insert(this.recado, 'recados');
+//   }
 
-  atualizar(){
-    this.crudservice.update(this.id, this.recado, 'recados')
-  }
+//   carregar(){
+//     this.recados = [];
+//     this.crudservice.fetchAll('recados')
+//     .then( (response) => {
+//       this.recados = (response)
+//       console.log(this.recados);
+      
+//     })  //tiver sucesso
+//     .catch((erro) => {
+//       console.log(erro)
+//     }) //ocorrer um erro
+//     .finally(() => {
+//       console.log('Processo Finalizado')
+//     }) //quanto finalizar a requisição
+//   }
 
-  registrar(){
-    this.authservice.register(this.usuario.email, this.usuario.senha);
-  }
+//   remover(id: string){
+//     this.crudservice.remove(id, 'recados')
+//     this.carregar();
+//   }
 
-  login(){
-   this.authservice.login(this.usuario.email, this.usuario.senha) 
-  }
+//   selecionar(recado: any) {
+//     this.id = recado.id;
+//     this.recado = recado.recado;
+//     // this.recado = mensagem;
+
+//   }
+
+//   atualizar(){
+//     this.crudservice.update(this.id, this.recado, 'recados')
+//   }
+
+//   registrar(){
+//     this.authservice.register(this.usuario.email, this.usuario.senha);
+//   }
+
+//   login(){
+//    this.authservice.login(this.usuario.email, this.usuario.senha) 
+//   }
 
 
 
